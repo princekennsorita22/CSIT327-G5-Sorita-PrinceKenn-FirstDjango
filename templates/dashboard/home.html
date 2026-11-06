@@ -1,40 +1,173 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard | CampusConnect{% endblock %}
+
 {% block content %}
 
-<div class="card shadow">
-    <div class="card-body">
-
-        <h2 class="text-primary">
-            Welcome, {{ user.first_name|default:user.username }}!
-        </h2>
-
-        <hr>
-
-        <p><strong>Role:</strong> {{ user.get_role_display }}</p>
-
-        <p><strong>Course:</strong> {{ user.course|default:"Not set" }}</p>
-
-        <p><strong>Members:</strong> {{ member_count }}</p>
-
-        <p>
-            <strong>Last login:</strong>
-            {{ user.last_login|date:"M d, Y" }}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+        <p class="text-primary fw-semibold mb-1">
+            <i class="bi bi-stars me-1"></i> STUDENT PORTAL
         </p>
-
-        {% if is_admin %}
-            <a href="{% url 'admin_panel' %}"
-               class="btn btn-primary">
-                Open Admin Panel
-            </a>
-        {% endif %}
-
-        <a href="{% url 'profile' %}"
-           class="btn btn-outline-primary">
-            Edit Profile
-        </a>
-
+        <h2 class="page-heading mb-1">
+            Welcome back, {{ user.first_name|default:user.username }}!
+        </h2>
+        <p class="subtitle mb-0">
+            Here's what's happening with your CampusConnect account.
+        </p>
     </div>
+
+    <a href="{% url 'profile' %}" class="btn btn-primary">
+        <i class="bi bi-pencil-square me-2"></i> Edit Profile
+    </a>
+</div>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+        <div class="custom-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="subtitle mb-2">Account Role</p>
+                    <h4 class="fw-bold mb-0">{{ user.get_role_display }}</h4>
+                </div>
+                <div class="stat-icon bg-primary-subtle text-primary">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+            </div>
+            <small class="text-success mt-3 d-block">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                Account active
+            </small>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="custom-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="subtitle mb-2">Your Course</p>
+                    <h4 class="fw-bold mb-0">{{ user.course|default:"Not set" }}</h4>
+                </div>
+                <div class="stat-icon bg-success-subtle text-success">
+                    <i class="bi bi-book"></i>
+                </div>
+            </div>
+            <small class="subtitle mt-3 d-block">
+                Your academic information
+            </small>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="custom-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="subtitle mb-2">Community Members</p>
+                    <h4 class="fw-bold mb-0">{{ member_count }}</h4>
+                </div>
+                <div class="stat-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-people"></i>
+                </div>
+            </div>
+            <small class="subtitle mt-3 d-block">
+                Registered CampusConnect users
+            </small>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-7">
+        <div class="custom-card p-4 h-100">
+            <h5 class="fw-bold mb-1">Your Profile Overview</h5>
+            <p class="subtitle mb-4">Your personal account information</p>
+
+            <div class="d-flex align-items-center mb-4">
+                <div class="stat-icon bg-primary text-white me-3"
+                     style="width:60px;height:60px;font-size:25px;border-radius:50%;">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h5>
+                    <span class="subtitle">{{ user.email }}</span>
+                </div>
+            </div>
+
+            <hr class="opacity-10">
+
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <small class="subtitle d-block mb-1">Username</small>
+                    <strong>{{ user.username }}</strong>
+                </div>
+
+                <div class="col-sm-6">
+                    <small class="subtitle d-block mb-1">Course</small>
+                    <strong>{{ user.course|default:"Not set" }}</strong>
+                </div>
+
+                <div class="col-sm-6">
+                    <small class="subtitle d-block mb-1">Account Type</small>
+                    <strong>{{ user.get_role_display }}</strong>
+                </div>
+
+                <div class="col-sm-6">
+                    <small class="subtitle d-block mb-1">Last Login</small>
+                    <strong>{{ user.last_login|date:"M d, Y"|default:"First login" }}</strong>
+                </div>
+            </div>
+
+            <a href="{% url 'profile' %}" class="btn btn-outline-primary mt-4">
+                Update Information <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="custom-card p-4 h-100">
+            <div class="stat-icon bg-primary-subtle text-primary mb-3">
+                <i class="bi bi-lightning-charge-fill"></i>
+            </div>
+
+            <h5 class="fw-bold">Quick Actions</h5>
+            <p class="subtitle mb-4">
+                Manage your CampusConnect account.
+            </p>
+
+            <a href="{% url 'profile' %}"
+               class="btn btn-light border w-100 text-start mb-3">
+                <i class="bi bi-person-gear text-primary me-2"></i>
+                Edit your profile
+                <i class="bi bi-arrow-right float-end"></i>
+            </a>
+
+            {% if is_admin %}
+                <a href="{% url 'admin_panel' %}"
+                   class="btn btn-light border w-100 text-start mb-3">
+                    <i class="bi bi-shield-lock text-primary me-2"></i>
+                    Open Admin Panel
+                    <i class="bi bi-arrow-right float-end"></i>
+                </a>
+            {% endif %}
+
+            <div class="p-3 rounded-3 mt-2"
+                 style="background:#eef2ff;">
+                <div class="fw-semibold text-primary mb-1">
+                    <i class="bi bi-info-circle me-1"></i>
+                    CampusConnect
+                </div>
+                <small class="text-secondary">
+                    Your campus community starts here. Keep your profile updated!
+                </small>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}

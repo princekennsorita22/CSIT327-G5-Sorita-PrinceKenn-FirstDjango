@@ -1,7 +1,63 @@
 {% extends "base.html" %}
 
+{% block title %}Admin Panel | CampusConnect{% endblock %}
+
 {% block content %}
 
-<h2>Admin Panel</h2>
+<div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">
+        <i class="bi bi-shield-lock-fill me-1"></i>
+        ADMINISTRATION
+    </p>
+
+    <h2 class="page-heading">Admin Panel</h2>
+
+    <p class="subtitle">
+        Welcome to the CampusConnect administration area.
+    </p>
+</div>
+
+<div class="custom-card p-4 p-md-5">
+
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="stat-icon bg-primary-subtle text-primary"
+             style="width:60px;height:60px;font-size:26px;">
+            <i class="bi bi-shield-check"></i>
+        </div>
+
+        <div>
+            <h4 class="fw-bold mb-1">Administrator Access</h4>
+            <p class="subtitle mb-0">
+                You have successfully accessed the Admin Panel.
+            </p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h5 class="fw-bold">Account Information</h5>
+
+    <div class="row g-3 mt-2">
+        <div class="col-md-6">
+            <div class="p-3 rounded-3 bg-light">
+                <small class="subtitle d-block">Administrator</small>
+                <strong>{{ request.user.username }}</strong>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="p-3 rounded-3 bg-light">
+                <small class="subtitle d-block">Role</small>
+                <strong>{{ request.user.get_role_display }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-4">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Dashboard
+    </a>
+
+</div>
 
 {% endblock %}

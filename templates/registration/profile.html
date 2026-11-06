@@ -1,31 +1,83 @@
 {% extends "base.html" %}
 
+{% block title %}My Profile | CampusConnect{% endblock %}
+
 {% block content %}
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
+<div class="mb-4">
+    <p class="text-primary fw-semibold mb-1">
+        <i class="bi bi-person-circle me-1"></i> ACCOUNT SETTINGS
+    </p>
+    <h2 class="page-heading">My Profile</h2>
+    <p class="subtitle">
+        Manage your personal and academic information.
+    </p>
+</div>
 
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">Edit Your Profile</h3>
+<div class="row g-4">
+
+    <div class="col-lg-4">
+        <div class="custom-card p-4 text-center">
+
+            <div class="stat-icon bg-primary text-white mx-auto mb-3"
+                 style="width:85px;height:85px;border-radius:50%;font-size:35px;">
+                <i class="bi bi-person-fill"></i>
             </div>
 
-            <div class="card-body">
+            <h5 class="fw-bold mb-1">
+                {{ user.first_name }} {{ user.last_name }}
+            </h5>
 
-                <form method="post">
-                    {% csrf_token %}
+            <p class="subtitle mb-3">{{ user.email }}</p>
 
-                    {{ form.as_p }}
+            <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-2">
+                {{ user.get_role_display }}
+            </span>
 
-                    <button type="submit" class="btn btn-success w-100">
+            <hr>
+
+            <div class="text-start">
+                <small class="subtitle d-block">Username</small>
+                <strong>{{ user.username }}</strong>
+
+                <small class="subtitle d-block mt-3">Course</small>
+                <strong>{{ user.course|default:"Not set" }}</strong>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="custom-card p-4 p-md-5">
+
+            <h5 class="fw-bold mb-1">Personal Information</h5>
+            <p class="subtitle mb-4">
+                Update your information below.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>
                         Save Changes
                     </button>
-                </form>
 
-            </div>
+                    <a href="{% url 'dashboard' %}"
+                       class="btn btn-light border">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
         </div>
-
     </div>
+
 </div>
 
 {% endblock %}
+
